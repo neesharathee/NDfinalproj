@@ -22,6 +22,7 @@ import com.example.nia.noted.database.DatabaseHelper;
 import com.example.nia.noted.database.model.Note;
 import com.example.nia.noted.utils.MyDividerItemDecoration;
 import com.example.nia.noted.utils.RecyclerTouchListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private NotesAdapter mAdapter;
     private List<Note> notesList = new ArrayList<>();
 
-
+    private FirebaseAnalytics mFirebaseAnalytics;
     private DatabaseHelper db;
 
     @Override
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setSupportActionBar(toolbar);
 
@@ -67,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showNoteDialog(false, null, -1);
+                Bundle bundle = new Bundle();
+               // bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "new note inserted");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             }
         });
 
@@ -190,7 +197,8 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilderUserInput.setView(view);
-        final EditText inputNote=findViewById(R.id.note);
+
+        final EditText inputNote=view.findViewById(R.id.note);
         TextView dialogTitle=view.findViewById(R.id.dialog_title);
         dialogTitle.setText(!shouldUpdate ? getString(R.string.lbl_new_note_title) : getString(R.string.lbl_edit_note_title));
 
