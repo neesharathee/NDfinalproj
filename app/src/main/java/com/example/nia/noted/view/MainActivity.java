@@ -1,11 +1,11 @@
 package com.example.nia.noted.view;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,13 +26,28 @@ import com.example.nia.noted.utils.RecyclerTouchListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.empty_notes_view)
+    TextView noNotesView;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+
+
 
     private NotesAdapter mAdapter;
     private List<Note> notesList = new ArrayList<>();
-    private CoordinatorLayout coordinatorLayout;
-    private RecyclerView recyclerView;
-    private TextView noNotesView;
+
 
     private DatabaseHelper db;
 
@@ -40,19 +55,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-        coordinatorLayout = findViewById(R.id.coordinator_layout);
-        recyclerView = findViewById(R.id.recycler_view);
-        noNotesView = findViewById(R.id.empty_notes_view);
+        setSupportActionBar(toolbar);
 
         db = new DatabaseHelper(this);
 
         notesList.addAll(db.getAllNotes());
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,9 +190,8 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilderUserInput.setView(view);
-
-        final EditText inputNote = view.findViewById(R.id.note);
-        TextView dialogTitle = view.findViewById(R.id.dialog_title);
+        final EditText inputNote=findViewById(R.id.note);
+        TextView dialogTitle=view.findViewById(R.id.dialog_title);
         dialogTitle.setText(!shouldUpdate ? getString(R.string.lbl_new_note_title) : getString(R.string.lbl_edit_note_title));
 
         if (shouldUpdate && note != null) {
