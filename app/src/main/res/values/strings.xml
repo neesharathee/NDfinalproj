@@ -6,5 +6,8 @@
     <string name="lbl_new_note_title">New Note</string>
     <string name="lbl_edit_note_title">Edit Note</string>
     <string name="hint_enter_note">Enter your note!</string>
+    <string name="appid_admob">ca-app-pub-4124474127597470~4410589977</string>
+    <string name="addid_admob">ca-app-pub-4124474127597470/8348344295</string>
+    <string name="testid_admob">ca-app-pub-3940256099942544/6300978111</string>
 
 </resources>

@@ -22,6 +22,8 @@ import com.example.nia.noted.database.DatabaseHelper;
 import com.example.nia.noted.database.model.Note;
 import com.example.nia.noted.utils.MyDividerItemDecoration;
 import com.example.nia.noted.utils.RecyclerTouchListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     TextView noNotesView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.adView)
+     AdView mAdView;
 
 
 
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private DatabaseHelper db;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setSupportActionBar(toolbar);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         db = new DatabaseHelper(this);
 
